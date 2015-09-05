@@ -1,0 +1,16 @@
+{% from "macros.html" import render_ratings %}
+
+{% if hit._source.poster_path %}
+<div class="cover">
+  {#<span class="hint--right hint--rounded hint--info" data-hint="Go to TMDb movie {{ hit._id }}">#}
+  <a href="http://www.themoviedb.org/movie/{{ hit._id }}">
+    <img src="http://image.tmdb.org/t/p/w185{{ hit._source.poster_path }}">
+  </a>
+  </span>
+</div>
+{% endif %}
+{% if hit._source.vote_count %}
+<div class="stars">
+  {{ render_ratings(hit._source.vote_average) }}
+</div>
+{% endif %}

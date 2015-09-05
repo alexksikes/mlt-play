@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% from "macros.html" import render_pagination %}
+{% from "macros.html" import render_explanation %}
+
+{% block stats %}
+{% if results %}
+<div class="stats">
+  <strong>{{ results.hits.total }}</strong> results in
+  <strong>{{ results.took / 1000.0 }}</strong> sec.
+</div>
+{% endif %}
+{% endblock %}
+
+{% block pagination_top %}
+{{ render_pagination(pagination) }}
+{% endblock %}
+
+{% block results %}
+<ul class="results">
+{% for hit in results.hits.hits %}
+  <li class="hit">
+    <h3>{{ hit._source.title }}</h3>
+    <div>
+      {{ hit._id }}
+      (<a href="{{ url_for('mlt',
+      dataset=dataset, ids=hit._id, **request.args) }}">similar</a>
+      |
+      {% if with_mlt %}
+        <a href="{{ url_for('mlt',
+      dataset=dataset, query=query, ids='%s+%s' % (hit._id, '+'.join(ids)), **request.args) }}">add to query</a>)
+      {% else %}
+        <a href="{{ url_for('mlt',
+      dataset=dataset, ids='%s+%s' % (hit._id, '+'.join(ids)), **request.args) }}">add to query</a>)
+      {% endif %}
+    </div>
+
+    {% include ('hit_%s.html') % dataset ignore missing with context %}
+
+    {% if '_explanation' in hit %}
+    <div class="scores">
+      {{ render_explanation(hit._explanation, dataset, top_k=EXPLAIN['top_k'], toggle_at=EXPLAIN['toggle_at'], with_fields=True) }}
+    </div>
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+{% block facets %}
+{% if 'aggregations' in results %}
+<div class="facets">
+{% for name, buckets in results.aggregations.items() %}
+  <div class="facet">
+    <div class="name">
+      {{ name }}
+    </div>
+    <ul class="bucket">
+    {% for bucket in buckets['buckets'] %}
+      <li>
+          <span class="key">
+            <a href="{{ url_for_filter(name, bucket.key, **request.args) }}">
+              {{ bucket.key }}
+            </a>
+          </span>
+          <span class="doc_count">({{ bucket.doc_count }})</span>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block pagination_bottom %}
+{{ render_pagination(pagination) }}
+{% endblock %}

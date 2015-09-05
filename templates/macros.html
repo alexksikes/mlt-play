@@ -1,0 +1,54 @@
+{% macro render_ratings(ratings) %}
+  {% for i in range(int(ratings)) %}
+  <img src="/static/icons/star-small.png">
+  {% endfor %}
+  {% if int(ratings) and ratings % int(ratings) >= 0.5 %}
+  <img src="/static/icons/star-small-half.png">
+  {% else %}
+  <img src="/static/icons/star-small-empty.png">
+  {% endif %}
+  {% for i in range(9 - int(ratings)) %}
+  <img src="/static/icons/star-small-empty.png">
+  {% endfor %}
+{% endmacro %}
+
+{% macro render_explanation(explanation, dataset, top_k=25, toggle_at=10, with_fields=False) %}
+  <div class="score">{{ '%0.2f' % explanation.value }}</div>
+  <ul>
+  {% for (v, s) in get_best_features(explanation, top_k, with_fields) %}
+    <li {{ 'class=more_less' if loop.index > toggle_at else '' }}>
+    <span class="hint--bottom hint--rounded hint--info" data-hint="{{ '%0.2f' % v }} | {{ s }}">
+    <a href={{ url_for('search', dataset=dataset, query='%s:"%s"' % (s.split(':')[0], s.split(':')[-1])) }}>
+      {{ s.split(':')[-1] }}
+    </a>
+    </span>
+    </li>
+    {% if loop.index == toggle_at %}
+      <li class="toggle_more hint--bottom hint--rounded hint--info" data-hint="show more significant terms"></li>
+    {% endif %}
+    {% if loop.last %}
+      <li class="toggle_less hint--bottom hint--rounded hint--info" data-hint="show less significant terms"></li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro render_pagination(pagination) %}
+  <div class=pagination>
+  {%- for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <a href="{{ url_for_other_page(page-1, **request.args) }}">{{ page }}</a>
+      {% else %}
+        <strong>{{ page }}</strong>
+      {% endif %}
+    {% else %}
+      <span class=ellipsis>…</span>
+    {% endif %}
+  {%- endfor %}
+  {% if pagination.has_next %}
+    <a href="{{ url_for_other_page(pagination.page, **request.args)
+      }}">Next &raquo;</a>
+  {% endif %}
+  </div>
+{% endmacro %}

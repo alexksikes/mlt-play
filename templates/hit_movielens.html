@@ -1,0 +1,14 @@
+{% from "macros.html" import render_ratings %}
+
+{% if hit._source.rtPictureURL %}
+<div class="cover">  
+  {% set url = generate_md5(hit._source.cover_url) %}
+  <img src="{{ hit._source.rtPictureURL }}">
+</div>
+{% endif %}
+{% if hit._source.rtAudienceRating %}
+<div class="stars" title="{{hit._source.rtAudienceRating}}">
+  {{ render_ratings(hit._source.rtAudienceRating * 2) }}
+</div>
+{% endif %}
+
