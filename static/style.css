@@ -1,0 +1,187 @@
+li {
+    list-style: none;
+}
+
+ul {
+    padding-left: 0;
+
+}
+
+h3 {
+    margin: 5px 0;
+}
+
+.search_results {
+    position: relative;
+}
+
+.navigation li.selected {
+    background: gray;
+}
+
+.selected a {
+    text-decoration: none;
+    color: white;
+}
+
+.navigation li {
+    display: inline;
+    padding: 5px;
+    border: 1px dotted;
+}
+
+li.hit {
+    border-bottom: 1px dotted;
+}
+
+.results {
+    float: left;
+    margin-right: 300px;
+}
+
+.results .cover img {
+    height: 150px;
+}
+
+.results .cover {
+    margin-top: 3px;
+}
+
+.stars img {
+    margin: -5px -5px 0px -5px;
+}
+
+.scores {
+    height: auto;
+    line-height: 28px;
+}
+
+.scores .score, .scores ul, .scores li {
+    display: inline;
+}
+
+.scores li {
+    /*padding: 1px 7px;*/
+    background: yellow;
+    margin-right: 3px;
+}
+
+.scores li a {
+    text-decoration: none;
+    color: black;
+}
+
+.scores li a:hover {
+    text-decoration: underline;
+}
+
+.search_form {
+    width: 515px;
+}
+
+.search_form input[type=text] {
+    width: 300px;
+}
+
+.search_form #full_text {
+    border-bottom: 1px dotted;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.pagination {
+    clear: both;
+    margin-top: 7px;
+    /* border: 1px dotted; */
+    padding: 5px 0px;
+    border-bottom: 1px dotted;
+    border-top: 1px dotted;
+}
+
+.mlt_params {
+    display: none;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+#toggle_mlt_params {
+    font-size: 14px;
+    margin-left: 5px;
+    padding-right: 20px;
+    background: url("/static/icons/toggle-expand.png") right no-repeat;
+}
+
+#toggle_mlt_params.open {
+    background: url("/static/icons/toggle.png") right no-repeat;
+}
+
+#toggle_mlt_params:hover, .scores .toggle_more, .scores .toggle_less {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.scores .more_less, .scores .toggle_less {
+    display: none;
+}
+
+.scores .toggle_less {
+    padding-left: 15px;
+    background: url("/static/icons/toggle.png") no-repeat;
+}
+
+.scores .toggle_more {
+    padding-left: 15px;
+    background: url("/static/icons/toggle-expand.png") no-repeat;
+}
+
+#full_text #with_mlt {
+    font-size: 14px;
+}
+
+
+.stats {
+    font-size: smaller;
+    margin-top: 5px;
+}
+
+/* facets */
+.facets {
+    position: absolute;
+    right: 0px;
+    top: 20px;
+    width: 250px;
+    padding: 5px;
+    padding-top: 0px;
+    padding-left: 20px;
+    border-left: 1px dotted;
+}
+
+.facet .name {
+    padding: 3px 0px 0px 2px;
+    margin-bottom: -1px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.bucket {
+    margin: 5px 0px;
+    border: 1px dotted;
+    padding: 4px;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.bucket .key a {
+    background: url("/static/icons/ui-check-box-uncheck.png") left no-repeat;
+    padding-left: 18px;
+    padding-top: 2px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.doc_count {
+    font-size: 12px;
+    color: gray;
+}
+/* facets */
+

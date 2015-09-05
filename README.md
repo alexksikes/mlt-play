@@ -1,0 +1,1 @@
+A very simply Flask web app to play with the various options of Elasticsearch More Like This.

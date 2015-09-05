@@ -1,0 +1,7 @@
+.idea
+*.pyc
+*.so
+*~
+.venv
+TODO.txt
+NOTES.txt
