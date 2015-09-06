@@ -10,17 +10,16 @@ import models
 PER_PAGE = 20
 USER_MLT_PARAMS = [
     'fields',
-    'percent_terms_to_match',
     'max_query_terms',
     'min_term_freq',
     'min_doc_freq',
     'max_doc_freq',
     'min_word_length',
     'max_word_length',
-    'boost_terms',
-    # 'boost',
-    'analyzer',
     'stop_words',
+    'analyzer',
+    'minimum_should_match',
+    'boost_terms',
     'include',
 ]
 EXPLAIN = {
@@ -77,10 +76,12 @@ def update_mlt_params(user_mlt_params, params):
             v = map(string.strip, v.split(','))
         elif k == 'analyzer':
             pass
-        elif k in ('percent_terms_to_match', 'boost_terms'):
+        elif k in ('boost_terms'):
             v = float(v)
         elif k == 'include':
             v = utils.to_bool(v)
+        elif k == 'minimum_should_match':
+            v = str(v)
         else:
             v = int(v)
         params[k] = v

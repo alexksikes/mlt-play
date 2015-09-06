@@ -12,16 +12,16 @@ class QueryIndex(object):
         self.search_fields = search_fields
         self.more_like_this_params = {
             'fields': search_fields,
-            'minimum_should_match': "0%",
             'max_query_terms': 25,
             'min_term_freq': 2,
             'min_doc_freq': 5,
             'max_doc_freq': 1000000,
             'min_word_length': 0,
             'max_word_length': 0,
-            'boost_terms': 0,
-            'analyzer': "",
             'stop_words': [""],
+            'analyzer': "",
+            'boost_terms': 0,
+            'minimum_should_match': "0%",
             'include': True,
         }
         self.more_like_this_params.update(more_like_this_params)
