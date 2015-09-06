@@ -13,13 +13,13 @@ class QueryIndex(object):
         self.more_like_this_params = {
             'fields': search_fields,
             'max_query_terms': 25,
-            'min_term_freq': 2,
-            'min_doc_freq': 5,
+            'min_term_freq': 1,
+            'min_doc_freq': 1,
             'max_doc_freq': 1000000,
             'min_word_length': 0,
             'max_word_length': 0,
             'stop_words': [""],
-            'analyzer': "",
+            'analyzer': "tag_analyzer",
             'boost_terms': 0,
             'minimum_should_match': "0%",
             'include': True,
@@ -182,12 +182,7 @@ class QueryIndex(object):
                         # 'original_title',
                         # 'production_companies.name.terms',
                         # 'production_countries.name.terms',
-                    ],
-                    'min_term_freq': 1,
-                    'min_doc_freq': 1,
-                    # 'max_query_terms': 100000,
-                    'minimum_should_match': "0%",
-                    'analyzer': 'tag_analyzer'
+                    ]
                 },
                 verbose=verbose,
                 explain=explain,
@@ -212,12 +207,7 @@ class QueryIndex(object):
                 more_like_this_params={
                     'fields': [
                         'plot_keywords.terms'
-                    ],
-                    'min_term_freq': 1,
-                    'min_doc_freq': 1,
-                    # 'max_query_terms': 100000,
-                    'minimum_should_match': "0%",
-                    'analyzer': 'tag_analyzer'
+                    ]
                 },
                 facets=[
                     ('Plot Keywords', 'plot_keywords.terms'),
@@ -241,12 +231,7 @@ class QueryIndex(object):
                 more_like_this_params={
                     'fields': [
                         'likes'
-                    ],
-                    'min_term_freq': 1,
-                    'min_doc_freq': 1,
-                    # 'max_query_terms': 100000,
-                    'minimum_should_match': "0%",
-                    'analyzer': 'tag_analyzer'
+                    ]
                 },
                 verbose=verbose,
                 explain=explain,
@@ -267,12 +252,7 @@ class QueryIndex(object):
                         'annotations.relevant.raw',
                         'features.colors'
                         # 'features.colors_with_counts'
-                    ],
-                    'min_term_freq': 1,
-                    'min_doc_freq': 1,
-                    # 'max_query_terms': 100000,
-                    'minimum_should_match': "0%",
-                    'analyzer': 'tag_analyzer'
+                    ]
                 },
                 verbose=verbose,
                 explain=explain,
