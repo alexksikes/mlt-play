@@ -133,7 +133,6 @@ def mlt(dataset, ids=None, query=None, page=0):
         ids = '+'.join(request.args.get('_ids', '').split(' '))
         return redirect(url_for('mlt', dataset=dataset, ids=ids,
                         **request.args))
-
     model = get_model(dataset)
     ids = ids.split('+')
     if not ids:
