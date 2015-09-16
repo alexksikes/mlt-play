@@ -1,8 +1,8 @@
 import re
 import hashlib
 import json
-from jsonselect import jsonselect as jselect
 
+from jsonselect import jsonselect as jselect
 import elasticsearch
 from flask import g, request, url_for
 
@@ -26,6 +26,7 @@ def generate_md5(s):
         return None
     return hashlib.md5(s).hexdigest()
 
+
 p = re.compile('weight\(.*?:(.*)\sin\s\d+\)')
 p_with_fields = re.compile('weight\((.*?:.*)\sin\s\d+\)')
 # output is not consistent, better use a query language
@@ -47,7 +48,7 @@ def get_best_features(e, top_k=0, with_fields=False):
 
 def pretty_json(obj):
     return json.dumps(obj, sort_keys=True, indent=4, separators=(',', ': '),
-                      ensure_ascii=False, encoding='utf8')
+        ensure_ascii=False, encoding='utf8')
 
 
 def url_for_other_page(page, **values):

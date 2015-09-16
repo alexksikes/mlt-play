@@ -1,6 +1,7 @@
 import string
 
 from flask import Flask, render_template, request, redirect, url_for
+
 from lib import paging
 # from flask_debugtoolbar import DebugToolbarExtension
 
@@ -43,7 +44,7 @@ def get_model(dataset):
 
 
 def get_pagination(results, cpage, per_page=PER_PAGE):
-    return paging.Pagination(cpage+1, per_page, results['hits']['total'])
+    return paging.Pagination(cpage + 1, per_page, results['hits']['total'])
 
 
 def get_methods():
@@ -71,7 +72,7 @@ def update_mlt_params(user_mlt_params, params):
         if k not in USER_MLT_PARAMS:
             continue
         if not v.strip():
-            v = None    # use ES defaults
+            v = None  # use ES defaults
         elif k == 'fields' or k == 'stop_words':
             v = map(string.strip, v.split(','))
         elif k == 'analyzer':
@@ -116,7 +117,7 @@ def search(dataset, query=None, page=0):
     if query == '':
         results = []
     else:
-        results = model.full_text_search(query, page*PER_PAGE, PER_PAGE)
+        results = model.full_text_search(query, page * PER_PAGE, PER_PAGE)
         pagination = get_pagination(results, page, PER_PAGE)
     return render_template(
         'search.html', dataset=dataset, query=query, results=results,
@@ -132,19 +133,20 @@ def mlt(dataset, ids=None, query=None, page=0):
     if ids is None:
         ids = '+'.join(request.args.get('_ids', '').split(' '))
         return redirect(url_for('mlt', dataset=dataset, ids=ids,
-                        **request.args))
+            **request.args))
     model = get_model(dataset)
     ids = ids.split('+')
     if not ids:
         results = []
     else:
         update_mlt_params(request.args, model.get_mlt_params())
-        results = model.more_like_these(ids, query, page*PER_PAGE, PER_PAGE)
+        results = model.more_like_these(ids, query, page * PER_PAGE, PER_PAGE)
         pagination = get_pagination(results, page, PER_PAGE)
     return render_template(
         'search.html', dataset=dataset, query=query, ids=ids, results=results,
         pagination=pagination, mlt_params=model.get_mlt_params(),
         with_mlt=ids and query, explain=model.explain)
+
 
 if __name__ == "__main__":
     app.jinja_env.trim_blocks = True
