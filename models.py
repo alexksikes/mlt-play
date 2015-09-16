@@ -1,11 +1,10 @@
 import utils
-import copy
 
 
 class QueryIndex(object):
     def __init__(self, es, index, doc_type, search_fields,
                  more_like_this_params={}, facets=[], verbose=False,
-                 explain=True, method='like_text'):
+                 explain=True, method='ids'):
         self.es = es
         self.index = index
         self.doc_type = doc_type
@@ -82,14 +81,10 @@ class QueryIndex(object):
         return self.perform_search()
 
     def more_like_these(self, ids, query=None, _from=0, size=20):
-        if self.method == '_mlt':
-            return self.more_like_this_endpoint(ids[0], _from, size)
-        # get the text in each field
-        elif self.method == 'like_text':
-            like_text = self.get_document_text(ids)
-        else:
+        if self.method == 'ids':
             like_text = ids
-        # build more like this query with text search if provided
+        else:  # get the text in each field
+            like_text = self.get_document_text(ids)
         if query is None:
             query = self.get_more_like_this_query(like_text)
         else:
@@ -120,25 +115,6 @@ class QueryIndex(object):
                 else:
                     text += ' ' + ' '.join(doc[f])
         return text.strip()
-
-    def more_like_this_endpoint(self, id, _from=0, size=20):
-        self.body = {'explain': self.explain, 'from': _from, 'size': size}
-        if self.verbose:
-            print utils.pretty_json(self.body)
-        # some parameters have different names
-        params = copy.deepcopy(self.more_like_this_params)
-        params['mlt_fields'] = params.pop('fields')
-        # bug in ES python?
-        if params['mlt_fields'] is None:
-            params['mlt_fields'] = ''
-
-        params.pop('analyzer')
-
-        aggs = self.get_facets_query()
-        self.body['aggs'] = aggs
-        return self.es.mlt(
-            index=self.index, doc_type=self.doc_type, id=id, body=self.body,
-            **params)
 
     def perform_search(self):
         if self.verbose:

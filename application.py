@@ -28,8 +28,8 @@ EXPLAIN = {
     'toggle_at': 10
 }
 VERBOSE = True
-DEFAULT_METHOD = 'like_text'
-METHODS = ['like_text', 'ids', '_mlt']
+DEFAULT_METHOD = 'ids'
+METHODS = ['ids', 'like_text']
 
 app = Flask(__name__)
 

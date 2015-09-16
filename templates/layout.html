@@ -41,7 +41,8 @@
       <div class="mlt_params">
         <div><span>method: </span>
         {% for m in get_methods() %}
-          <input type="radio" name="method" value="{{ m }}" {{ 'checked' if request.args.get('method', 'like_text') == m else '' }}>{{ m }}
+          <input type="radio" name="method" value="{{ m }}" {{ 'checked' if request.args.get('method', 'ids') == m
+          else '' }}>{{ m }}
         {% endfor %}
         </div>
 
