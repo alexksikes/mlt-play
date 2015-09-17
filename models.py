@@ -81,8 +81,8 @@ class QueryIndex(object):
         return self.perform_search()
 
     def more_like_these(self, ids, query=None, _from=0, size=20):
-        if self.method == 'ids':
-            like_text = ids
+        if self.method == 'like':
+            like_text = [{'_id':  id} for id in ids]
         else:  # get the text in each field
             like_text = self.get_document_text(ids)
         if query is None:

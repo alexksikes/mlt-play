@@ -41,7 +41,7 @@
                 <div><span>method: </span>
                     {% for m in get_methods() %}
                         <input type="radio" name="method" value="{{ m }}"
-                                {{ 'checked' if request.args.get('method', 'ids') == m else '' }}>
+                                {{ 'checked' if request.args.get('method', 'like') == m else '' }}>
                         {{ m }}
                     {% endfor %}
                 </div>
